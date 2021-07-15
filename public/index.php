@@ -1,4 +1,6 @@
 <?php
+if(!isset($_SESSION))
+    session_start();
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
