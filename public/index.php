@@ -2,6 +2,11 @@
 if(!isset($_SESSION))
     session_start();
 
+if(!isset($_SESSION['PROD_ARRAY']))
+{
+    $_SESSION['PROD_ARRAY'] = array();
+}
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 

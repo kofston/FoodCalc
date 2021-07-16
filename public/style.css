@@ -1,5 +1,5 @@
 .wrapper {
-    height: 160vh;
+    height: 170vh;
     width: 100%;
     left:0;
     right: 0;
@@ -43,4 +43,7 @@
 }
 .waterstyle{
     color: dodgerblue;
+}
+.eatstyle{
+    color: red;
 }

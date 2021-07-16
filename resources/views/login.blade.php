@@ -29,8 +29,18 @@
                     <h5>Powiedz nam co dziś zjadłeś</h5>
                     <h5>Ale pierwsze, powiedz nam coś o sobie:</h5>
                     <div class="form-group">
-                        <label for="login">Wiek</label>
+                        <label for="login">Wiek (lata)</label>
                         <input type="number" class="form-control" placeholder="Wiek" name="age" autocomplete="off" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login">Wysokość (cm)</label>
+                        <input type="number" class="form-control" placeholder="Wysokość" name="height" autocomplete="off" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="login">Waga (kg)</label>
+                        <input type="number" class="form-control" placeholder="Waga" name="weight" autocomplete="off" required>
                     </div>
 
                     <div class="form-group">
@@ -41,47 +51,63 @@
                         </select>
                     </div>
 
-                    <label class="mt-2">Śniadanie:</label>
+                    <label class="mt-2">Posiłki:</label>
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" name="food[]" placeholder="Posiłek" required>
+                            <?php echo Form::select('call[]', $food, 66,array('class'=>'w-100 form-control')); ?>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" name="calories[]" placeholder="Liczba kalorii" required>
+                            <input type="number" step="1" min="1" max="20" class="form-control" name="portion[]" placeholder="Liczba porcji (1 = 100g )" value="1" required>
                         </div>
                     </div>
 
-                    <label class="mt-2">II Śniadanie:</label>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col">
-                            <input type="text" class="form-control" name="food[]" placeholder="Posiłek" required>
+                            <?php echo Form::select('call[]', $food, 66,array('class'=>'w-100 form-control')); ?>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" name="calories[]" placeholder="Liczba kalorii" required>
-                        </div>
-                    </div>
-
-                    <label class="mt-2">Obiad:</label>
-                    <div class="row">
-                        <div class="col">
-                            <input type="text" class="form-control" name="food[]" placeholder="Posiłek" required>
-                        </div>
-                        <div class="col">
-                            <input type="text" class="form-control" name="calories[]" placeholder="Liczba kalorii" required>
+                            <input type="number" step="1" min="1" max="20" class="form-control" name="portion[]" placeholder="Liczba porcji (1 = 100g )" value="1" required>
                         </div>
                     </div>
 
-                    <label class="mt-2">Kolacja:</label>
-                    <div class="row">
+                    <div class="row mt-3">
                         <div class="col">
-                            <input type="text" class="form-control" name="food[]" placeholder="Posiłek" required>
+                            <?php echo Form::select('call[]', $food, 66,array('class'=>'w-100 form-control')); ?>
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" name="calories[]" placeholder="Liczba kalorii" required>
+                            <input type="number" step="1" min="1" max="20" class="form-control" name="portion[]" placeholder="Liczba porcji (1 = 100g )" value="1" required>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col">
+                            <?php echo Form::select('call[]', $food, 66,array('class'=>'w-100 form-control')); ?>
+                        </div>
+                        <div class="col">
+                            <input type="number" step="1" min="1" max="20" class="form-control" name="portion[]" placeholder="Liczba porcji (1 = 100g )" value="1" required>
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-success w-100 mt-4">Przelicz kalorie</button>
+
+                </form>
+
+                <h4 class="mt-3">Nie znalazłeś produktu na liście?</h4>
+                <form action="/newprodadd" method="post">
+                    @csrf
+                    <div class="form-group">
+                        <label for="login">Nazwa nowego produktu</label>
+                        <input type="text" class="form-control" placeholder="Nazwa Nowego Produktu" name="namenewprod[]" autocomplete="off" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login">Kalorie nowego produktu</label>
+                        <input type="number" class="form-control" placeholder="Kalorie Nowego Produktu" name="kcalnewprod" autocomplete="off" required>
+                    </div>
+                    <span class="btn btn-info w-100 mt-4" id="copy_calority">Skopiuj kaloryczność do nowego produktu</span>
+
+                    <div id="calority_box"></div>
+
+                    <button class="btn btn-warning w-100 mt-4">Stwórz swój tymczasowy własny produkt</button>
 
                 </form>
 
@@ -91,7 +117,7 @@
                     <h5>Ale pierwsze, powiedz nam coś o sobie:</h5>
                     <div class="form-group">
                         <label for="login">Waga</label>
-                        <input type="number" class="form-control" placeholder="Waga" name="weight" autocomplete="off" required>
+                        <input type="number" class="form-control" placeholder="Waga" name="weight" autocomplete="off" required />
                     </div>
 
                     <div class="form-group">
@@ -110,7 +136,15 @@
 
                 </form>
 
+
             </div>
+            <script>
+                $( document ).ready(function() {
+                  $("#copy_calority").unbind().click(function (){
+                      $("#calority_box").append("<input name='namenewprod[]' placeholder='Wprowadz nazwe nowego produktu' class='form-control mt-3' required/>");
+                  });
+                });
+            </script>
         @else
             <div class="card mw-350px">
                 <div class="card-body">
@@ -169,10 +203,11 @@
 
             @if($_GET['shouldDrink']>$_GET['drink'])
                 <h4 style="color: red;font-weight: 900;">Wypiłeś za mało wody!</h4>
-                <form action="/drink_email">
+                <form action="/drink_email/{{$_GET['shouldDrink']}}" method="post">
+                    @csrf
                     <div class="form-group">
                         <label for="login">E-mail</label>
-                        <input type="number" class="form-control" placeholder="E-mail" name="email" autocomplete="off" required>
+                        <input type="email" class="form-control" placeholder="E-mail" name="email" autocomplete="off" required>
                         <button class="btn btn-danger mt-4">Wyślij do mnie przypomnienie</button>
                     </div>
                 </form>
@@ -189,6 +224,35 @@
 {{--    --}}
 {{--    KALORIE--}}
     @if(isset($_GET['eat']))
+        <div class="card mw-950px p-4">
+            <h4>Spożyłeś dzisiaj: <span class="eatstyle"><b>{{$_GET['eat']}}</b> kalorii </span></h4>
+            <h4>Powinieneś spożyć: <span class="eatstyle"><b>{{number_format($_GET['shouldEat'],2,',','')}}</b> kalorii </span></h4>
+
+            @if($_GET['shouldEat']>$_GET['eat'])
+                <?php
+                if($_GET['shouldEat'] - $_GET['eat'] > 800)
+                    {
+                       echo' <h3 class="mt-3" style="color: red;">Zjadłeś stanowczo za mało kalorii! Pamiętaj iż musisz dostarczać składników odżywczych do twojego organizmu!</h4>';
+                    }
+                else
+                    {
+                        echo' <h3 class="mt-3" style="color: orange">Zjadłeś trochę poniżej dziennego zapotrzebowania, utrzymując ten stan będziesz tracił powoli swoją wagę, jeśli się odchudzasz to gratulacje!<br>To dobra droga do celu :)!</h4>';
+                    }
+                ?>
+            @else
+                <?php
+                if($_GET['eat'] - $_GET['shouldEat'] < 800)
+                {
+                    echo' <h3 class="mt-3" style="color: orange">Zjadłeś trochę powyżej dziennego zapotrzebowania, utrzymując ten stan będziesz coraz bardziej otyły, Pamiętaj o aktywności fizycznej i dobrym nawodnieniu!</h4>';
+                }
+                else
+                {
+                    echo' <h3 class="mt-3" style="color: red">Zjadłeś stanowczo za dużo! Pamiętaj iż może to doprowadzić do otyłości oraz chorób z tym schorzeniem związanych, takich jak miażdżyca / cukrzyca itp.</h4>';
+                }
+                ?>
+            @endif
+            <a class="btn btn-success mt-3" href="/" title="Strona Główna"> Powrót</a>
+        </div>
     @endif
 {{--    --}}
 

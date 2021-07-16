@@ -10,6 +10,7 @@ class Singletondatabase extends Model
     private function __construct() {}
 
     private static function getInstance(){
+        //Zawsze weźmie tą samą instancję kiedy chcę pobrać nową
         if (self::$instance == null){
             $className = __CLASS__;
             self::$instance = new $className;
