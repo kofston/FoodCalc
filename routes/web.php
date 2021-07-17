@@ -20,7 +20,9 @@ Route::post('/logout','App\Http\Controllers\LoginController@logout');
 Route::post('/countCalories','App\Http\Controllers\MainController@countCalories');
 Route::post('/countWater','App\Http\Controllers\WaterController@countWater');
 Route::post('/drink_email/{variable}','App\Http\Controllers\WaterController@drink_email');
-
 Route::post('/newprodadd','App\Http\Controllers\MainController@newprodadd');
+Route::get('/bad_password','App\Http\Controllers\MainController@bad_password');
+
+
 
 

@@ -1,5 +1,5 @@
 .wrapper {
-    height: 170vh;
+    height: 185vh;
     width: 100%;
     left:0;
     right: 0;
@@ -37,7 +37,7 @@
 
 .mw-350px{
     width: 100%;
-    max-width: 350px;
+    max-width: 370px;
     margin-left: auto;
     margin-right: auto;
 }

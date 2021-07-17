@@ -175,7 +175,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="password">Hasło</label>
+                            <label for="password">Hasło (min. 6 znaków w tym znak specjalny)</label>
                             <input type="password" class="form-control" id="password" placeholder="Hasło" name="password" autocomplete="off" required>
                         </div>
 

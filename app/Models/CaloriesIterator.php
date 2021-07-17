@@ -2,7 +2,7 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
-//Iterator ( u mnie będzie poruszał się po obiektach (dodanych szklankach wody) i wskaże czy osoba jest poprawnie nawodniona
+//Iterator ( u mnie będzie poruszał się po arrayu z produktami (zawierającymi porcje oraz liczbę kalorii / nazwę )
 interface IIterator
 {
     function TakenextFood();

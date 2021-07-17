@@ -1,24 +1,26 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Main;
 use Faker\Extension\Helper;
+use GuzzleHttp\Handler\Proxy;
 use Illuminate\Database\Eloquent\Model;
 use Request;
 use DB;
 use Singletondatabase;
 use App\Models\Ownhelper;
 use CaloriesIterator;
-use Prototype;
 use App\Models;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WaterController;
 use App\Models\NewprodPrototype;
 
-
 class MainController extends Controller
 {
+    public function bad_password(){
+        return view("header").view("login_bad").view("footer");
+    }
+
     public function index()
     {
         $food_array = array(
@@ -88,21 +90,14 @@ class MainController extends Controller
         return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(8/strlen($x)) )),1,8)."_".$calories;
     }
 
-    public function pre($string = '')
-    {
-        echo '<pre>' . print_r($string, TRUE) . '</pre>';
-    }
-
     //Nowy produkt (przygotowanie do wzorca Prototyp)
     public function newprodadd()
     {
         $kcalnewprod = $_POST['kcalnewprod'];
         $namenewprod = $_POST['namenewprod'];
-
         //Tworze instancje obiektu klasy NewprodPrototype (dodawania nowego produktu do sesji), i dodaje nowy produkt (pierwszy)
         $NewProductObject = new NewprodPrototype($namenewprod[0],$kcalnewprod);
         $NewProductObject->setNameAndKcalToSession();
-
 
         //Sprawdzam czy jest ich więcej ( wtedy skopiuje produkt używając Prototypu)
         if(count($namenewprod)>1)
@@ -112,14 +107,15 @@ class MainController extends Controller
 
             foreach ($namenewprod as $namenewPRD)
             {
+                //używam wbudowanej implementacji w php (clone) bazującej na wzorcu prototypu
                 $newProduct_NewObject = clone $NewProductObject;
-                //kopiuje obiekt i do skopiowanego obiektu zmieniam tylko nazwę ( bo kalorie pozostawiam takie same )
+                //kopiuje obiekt i do skopiowanego obiektu zmieniam tylko nazwę (modyfikuję skopiowany obiekt) ( bo kalorie pozostawiam takie same )
                 $newProduct_NewObject->setNameAndKcalToSession($namenewPRD);
             }
         }
-
-//        return redirect('/');
         //
+
+        return redirect('/');
     }
     //
 

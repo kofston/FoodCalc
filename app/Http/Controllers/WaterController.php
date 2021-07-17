@@ -37,8 +37,6 @@ class WaterController extends Controller
     }
     public function drink_email($should='')
     {
-        $this->pre($should);
-
         if(isset($_POST['email']))
         {
             $to      = $_POST['email'];
